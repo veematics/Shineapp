@@ -12,12 +12,25 @@ use Illuminate\Support\Facades\Gate;
 class RolePermissionController extends Controller
 {
     /**
+     * Display admin dashboard
+     */
+    public function adminDashboard()
+    {
+        // Check permission using Gates - should match route middleware
+        if (Gate::denies('manage-appsetting')) {
+            abort(403, 'You do not have permission to access admin dashboard.');
+        }
+
+        return view('admin.dashboard');
+    }
+
+    /**
      * Display roles management page
      */
     public function rolesIndex()
     {
-        // Check permission using FeatureAccess helper
-        if (!FeatureAccess::hasPermission('manage roles')) {
+        // Check permission using hierarchical FeatureAccess helper
+        if (!FeatureAccess::hasPermissionHierarchical('view roles')) {
             abort(403, 'You do not have permission to manage roles.');
         }
 
@@ -30,8 +43,8 @@ class RolePermissionController extends Controller
      */
     public function permissionsIndex()
     {
-        // Check permission using Gates
-        if (Gate::denies('manage-permissions')) {
+        // Check permission using hierarchical FeatureAccess helper
+        if (!FeatureAccess::hasPermissionHierarchical('view permissions')) {
             abort(403, 'You do not have permission to manage permissions.');
         }
 
@@ -59,7 +72,7 @@ class RolePermissionController extends Controller
     public function modelsIndex()
     {
         // Check permission using Laravel Gates
-        if (!Gate::allows('manage-models')) {
+        if (!Gate::allows('manage appsetting')) {
             abort(403, 'Unauthorized access to model management.');
         }
 
@@ -253,17 +266,64 @@ class RolePermissionController extends Controller
      */
     public function createPermission(Request $request)
     {
-        if (!FeatureAccess::hasPermission('create permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('create permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
-        $request->validate([
-            'name' => 'required|string|unique:permissions,name'
-        ]);
+        try {
+            $request->validate([
+                'name' => 'required|string|unique:permissions,name',
+                'guard_name' => 'nullable|string|in:web,api'
+            ]);
 
-        Permission::create(['name' => $request->name]);
+            Permission::create([
+                'name' => $request->name,
+                'guard_name' => $request->guard_name ?? 'web'
+            ]);
 
-        return response()->json(['success' => 'Permission created successfully']);
+            return response()->json([
+                'success' => true,
+                'message' => 'Permission created successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ], 400);
+        }
+    }
+
+    /**
+     * Delete permission
+     */
+    public function deletePermission($permissionId)
+    {
+        if (!FeatureAccess::hasPermissionHierarchical('delete permissions')) {
+            return response()->json(['error' => 'Unauthorized'], 403);
+        }
+
+        try {
+            $permission = Permission::findOrFail($permissionId);
+            
+            // Remove permission from all roles first
+            $permission->roles()->detach();
+            
+            // Remove permission from all users
+            $permission->users()->detach();
+            
+            // Delete the permission
+            $permission->delete();
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Permission deleted successfully'
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'error' => $e->getMessage()
+            ], 400);
+        }
     }
 
     /**
@@ -347,7 +407,7 @@ class RolePermissionController extends Controller
      */
     public function createModelPermission(Request $request)
     {
-        if (Gate::denies('manage-permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('create permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -386,7 +446,7 @@ class RolePermissionController extends Controller
      */
     public function assignModelPermissionToRole(Request $request)
     {
-        if (Gate::denies('manage-permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('edit permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -410,7 +470,7 @@ class RolePermissionController extends Controller
      */
     public function revokeModelPermissionFromRole(Request $request)
     {
-        if (Gate::denies('manage-permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('edit permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -434,7 +494,7 @@ class RolePermissionController extends Controller
      */
     public function getModelPermissions(Request $request)
     {
-        if (Gate::denies('manage-permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('view permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -472,7 +532,7 @@ class RolePermissionController extends Controller
      */
     public function bulkAssignPermissionsToRole(Request $request)
     {
-        if (Gate::denies('manage-permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('edit permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -499,7 +559,7 @@ class RolePermissionController extends Controller
      */
     public function bulkRevokePermissionsFromRole(Request $request)
     {
-        if (Gate::denies('manage-permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('edit permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -526,7 +586,7 @@ class RolePermissionController extends Controller
      */
     public function updatePermission(Request $request, $id)
     {
-        if (!FeatureAccess::hasPermission('manage permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('edit permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -560,7 +620,7 @@ class RolePermissionController extends Controller
      */
     public function getPermission($id)
     {
-        if (!FeatureAccess::hasPermission('manage permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('view permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -586,7 +646,7 @@ class RolePermissionController extends Controller
      */
     public function assignPermissionToRole(Request $request, $permissionId)
     {
-        if (!FeatureAccess::hasPermission('manage permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('edit permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 
@@ -617,7 +677,7 @@ class RolePermissionController extends Controller
      */
     public function revokePermissionFromRole(Request $request, $permissionId)
     {
-        if (!FeatureAccess::hasPermission('manage permissions')) {
+        if (!FeatureAccess::hasPermissionHierarchical('edit permissions')) {
             return response()->json(['error' => 'Unauthorized'], 403);
         }
 

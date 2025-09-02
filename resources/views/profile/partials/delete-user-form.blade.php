@@ -1,14 +1,22 @@
 <section>
     <div class="mb-4">
         <div class="alert alert-danger" role="alert">
-            <i class="fas fa-exclamation-triangle me-2"></i>
+            <i class="icon me-2">
+            <svg class="icon">
+                <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-warning') }}"></use>
+            </svg>
+        </i>
             <strong>{{ __('Warning!') }}</strong>
             {{ __('Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.') }}
         </div>
     </div>
 
     <button type="button" class="btn btn-danger" data-coreui-toggle="modal" data-coreui-target="#confirmUserDeletionModal">
-        <i class="fas fa-trash-alt me-2"></i>
+        <i class="icon me-2">
+            <svg class="icon">
+                <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-trash') }}"></use>
+            </svg>
+        </i>
         {{ __('Delete Account') }}
     </button>
 
@@ -18,7 +26,11 @@
             <div class="modal-content">
                 <div class="modal-header bg-danger text-white">
                     <h5 class="modal-title" id="confirmUserDeletionModalLabel">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-warning') }}"></use>
+                </svg>
+            </i>
                         {{ __('Confirm Account Deletion') }}
                     </h5>
                     <button type="button" class="btn-close btn-close-white" data-coreui-dismiss="modal" aria-label="Close"></button>
@@ -30,7 +42,11 @@
                     
                     <div class="modal-body">
                         <div class="alert alert-warning" role="alert">
-                            <i class="fas fa-exclamation-circle me-2"></i>
+                            <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-warning') }}"></use>
+                </svg>
+            </i>
                             <strong>{{ __('Are you sure you want to delete your account?') }}</strong>
                         </div>
                         
@@ -42,7 +58,11 @@
                             <label for="delete_password" class="form-label visually-hidden">{{ __('Password') }}</label>
                             <div class="input-group">
                                 <span class="input-group-text">
-                                    <i class="fas fa-key text-danger"></i>
+                                    <i class="icon text-danger">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                    </svg>
+                </i>
                                 </span>
                                 <input type="password" 
                                        class="form-control @error('password', 'userDeletion') is-invalid @enderror" 
@@ -61,11 +81,19 @@
                     
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-coreui-dismiss="modal">
-                            <i class="fas fa-times me-2"></i>
+                            <i class="icon me-2">
+                            <svg class="icon">
+                                <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-x') }}"></use>
+                            </svg>
+                        </i>
                             {{ __('Cancel') }}
                         </button>
                         <button type="submit" class="btn btn-danger">
-                            <i class="fas fa-trash-alt me-2"></i>
+                            <i class="icon me-2">
+                            <svg class="icon">
+                                <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-trash') }}"></use>
+                            </svg>
+                        </i>
                             {{ __('Delete Account') }}
                         </button>
                     </div>

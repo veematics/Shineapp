@@ -6,7 +6,11 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">
-                    <i class="fas fa-user"></i>
+                    <i class="icon">
+                        <svg class="icon">
+                            <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-user') }}"></use>
+                        </svg>
+                    </i>
                 </span>
             </div>
             <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -23,7 +27,11 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">
-                    <i class="fas fa-envelope"></i>
+                    <i class="icon">
+                        <svg class="icon">
+                            <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-envelope-closed') }}"></use>
+                        </svg>
+                    </i>
                 </span>
             </div>
             <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" 
@@ -40,7 +48,11 @@
         <div class="input-group mb-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">
-                    <i class="fas fa-lock"></i>
+                    <i class="icon">
+                        <svg class="icon">
+                            <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                        </svg>
+                    </i>
                 </span>
             </div>
             <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" 
@@ -57,7 +69,11 @@
         <div class="input-group mb-4">
             <div class="input-group-prepend">
                 <span class="input-group-text">
-                    <i class="fas fa-lock"></i>
+                    <i class="icon">
+                        <svg class="icon">
+                            <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                        </svg>
+                    </i>
                 </span>
             </div>
             <input id="password_confirmation" type="password" class="form-control @error('password_confirmation') is-invalid @enderror" 

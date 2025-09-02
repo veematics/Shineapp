@@ -16,7 +16,11 @@
         <div class="row g-3">
             <div class="col-md-6">
                 <label for="name" class="form-label">
-                    <i class="fas fa-user me-1 text-primary"></i>
+                    <i class="icon me-1 text-primary">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-user') }}"></use>
+                    </svg>
+                </i>
                     {{ __('Name') }}
                 </label>
                 <input type="text" class="form-control @error('name') is-invalid @enderror" 
@@ -31,7 +35,11 @@
 
             <div class="col-md-6">
                 <label for="email" class="form-label">
-                    <i class="fas fa-envelope me-1 text-primary"></i>
+                    <i class="icon me-1 text-primary">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-envelope-closed') }}"></use>
+                    </svg>
+                </i>
                     {{ __('Email') }}
                 </label>
                 <input type="email" class="form-control @error('email') is-invalid @enderror" 
@@ -45,7 +53,11 @@
 
                 @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                     <div class="alert alert-warning mt-2" role="alert">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="icon me-2">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-warning') }}"></use>
+                    </svg>
+                </i>
                         {{ __('Your email address is unverified.') }}
                         <button form="send-verification" class="btn btn-link p-0 ms-2 text-decoration-underline">
                             {{ __('Click here to re-send the verification email.') }}
@@ -54,7 +66,11 @@
 
                     @if (session('status') === 'verification-link-sent')
                         <div class="alert alert-success mt-2" role="alert">
-                            <i class="fas fa-check-circle me-2"></i>
+                            <i class="icon me-2">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-check-circle') }}"></use>
+                    </svg>
+                </i>
                             {{ __('A new verification link has been sent to your email address.') }}
                         </div>
                     @endif
@@ -64,7 +80,11 @@
 
         <div class="d-flex align-items-center gap-3 mt-4">
             <button type="submit" class="btn btn-primary">
-                <i class="fas fa-save me-2"></i>
+                <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-save') }}"></use>
+                </svg>
+            </i>
                 {{ __('Save Changes') }}
             </button>
 
@@ -72,7 +92,11 @@
                 <div class="alert alert-success alert-dismissible fade show mb-0 py-2" role="alert" 
                      x-data="{ show: true }" x-show="show" x-transition 
                      x-init="setTimeout(() => show = false, 3000)">
-                    <i class="fas fa-check-circle me-2"></i>
+                    <i class="icon me-2">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-check-circle') }}"></use>
+                    </svg>
+                </i>
                     {{ __('Profile updated successfully!') }}
                 </div>
             @endif

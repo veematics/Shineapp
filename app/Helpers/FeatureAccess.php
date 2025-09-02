@@ -25,6 +25,45 @@ class FeatureAccess
     }
 
     /**
+     * Check if the current user has a specific permission with hierarchical support
+     * Users with 'manage X' permission automatically have 'create X', 'view X', 'edit X', 'delete X'
+     *
+     * @param string $permission
+     * @return bool
+     */
+    public static function hasPermissionHierarchical(string $permission): bool
+    {
+        if (!Auth::check()) {
+            return false;
+        }
+
+        $user = Auth::user();
+        
+        // First check if user has the exact permission
+        if ($user->hasPermissionTo($permission)) {
+            return true;
+        }
+        
+        // Check for hierarchical permissions
+        // Extract the resource name from CRUD permissions
+        $crudActions = ['create', 'view', 'edit', 'delete'];
+        
+        foreach ($crudActions as $action) {
+            if (str_starts_with($permission, $action . ' ')) {
+                $resource = substr($permission, strlen($action . ' '));
+                $managePermission = 'manage ' . $resource;
+                
+                if ($user->hasPermissionTo($managePermission)) {
+                    return true;
+                }
+                break;
+            }
+        }
+        
+        return false;
+    }
+
+    /**
      * Check if the current user has a specific role
      *
      * @param string $role

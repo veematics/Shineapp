@@ -5,7 +5,11 @@
             <div class="d-flex justify-content-between align-items-center">
                 <div>
                     <h1 class="h3 mb-0 text-body-emphasis">
-                        <i class="fas fa-user-cog me-2 text-primary"></i>
+                        <i class="icon me-2 text-primary">
+            <svg class="icon">
+                <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-settings') }}"></use>
+            </svg>
+        </i>
                         {{ __('Profile Settings') }}
                     </h1>
                     <p class="text-body-secondary mb-0">{{ __('Manage your account settings and preferences') }}</p>
@@ -20,7 +24,11 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-primary-gradient text-white">
                     <h5 class="card-title mb-0">
-                        <i class="fas fa-user me-2"></i>
+                        <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-user') }}"></use>
+                </svg>
+            </i>
                         {{ __('Profile Information') }}
                     </h5>
                 </div>
@@ -35,7 +43,11 @@
             <div class="card border-0 shadow-sm">
                 <div class="card-header bg-info-gradient text-white">
                     <h5 class="card-title mb-0">
-                        <i class="fas fa-lock me-2"></i>
+                        <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                </svg>
+            </i>
                         {{ __('Account Security') }}
                     </h5>
                 </div>
@@ -50,7 +62,11 @@
             <div class="card border-0 shadow-sm border-danger">
                 <div class="card-header bg-danger-gradient text-white">
                     <h5 class="card-title mb-0">
-                        <i class="fas fa-exclamation-triangle me-2"></i>
+                        <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-warning') }}"></use>
+                </svg>
+            </i>
                         {{ __('Danger Zone') }}
                     </h5>
                 </div>

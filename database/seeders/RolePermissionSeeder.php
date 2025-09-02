@@ -26,6 +26,7 @@ class RolePermissionSeeder extends Seeder
             'edit users',
             'delete users',
             'manage users',
+            'impersonate users',
             
             // Role management
             'view roles',
@@ -33,6 +34,7 @@ class RolePermissionSeeder extends Seeder
             'edit roles',
             'delete roles',
             'manage roles',
+            'assign roles',
             
             // Permission management
             'view permissions',
@@ -41,114 +43,237 @@ class RolePermissionSeeder extends Seeder
             'delete permissions',
             'manage permissions',
             
-            // Model management
-            'manage models',
+            // Content management
+            'view posts',
+            'create posts',
+            'edit posts',
+            'delete posts',
+            'publish posts',
+            'edit own posts',
+            'delete own posts',
+            
+            // Category management
+            'view categories',
+            'create categories',
+            'edit categories',
+            'delete categories',
+            
+            // Media management
+            'view media',
+            'upload media',
+            'edit media',
+            'delete media',
+            
+            // Comment management
+            'view comments',
+            'moderate comments',
+            'delete comments',
             
             // Dashboard access
             'view dashboard',
             'admin dashboard',
+            'analytics dashboard',
             
             // Settings
             'view settings',
             'edit settings',
             'manage settings',
+            'manage-appsetting',
+            'system settings',
             
             // Reports
             'view reports',
             'create reports',
             'export reports',
+            'financial reports',
             
             // System administration
             'system administration',
             'backup system',
             'restore system',
+            'view logs',
+            'clear cache',
+            
+            // API access
+            'api access',
+            'api write',
+            
+            // Notifications
+            'send notifications',
+            'manage notifications',
         ];
 
         foreach ($permissions as $permission) {
-            Permission::create(['name' => $permission]);
+            Permission::firstOrCreate(['name' => $permission]);
         }
 
         // Create roles and assign permissions
         
         // Super Admin - has all permissions
-        $superAdminRole = Role::create(['name' => 'super-admin']);
-        $superAdminRole->givePermissionTo(Permission::all());
+        $superAdminRole = Role::firstOrCreate(['name' => 'super-admin']);
+        $superAdminRole->syncPermissions(Permission::all());
 
         // Admin - has most permissions except system administration
-        $adminRole = Role::create(['name' => 'admin']);
+        $adminRole = Role::firstOrCreate(['name' => 'admin']);
         $adminPermissions = [
-            'view users', 'create users', 'edit users', 'delete users', 'manage users',
-            'view roles', 'create roles', 'edit roles', 'delete roles', 'manage roles',
-            'view permissions', 'manage permissions',
-            'manage models',
-            'view dashboard', 'admin dashboard',
+            'view users', 'create users', 'edit users', 'delete users', 'manage users', 'impersonate users',
+            'view roles', 'create roles', 'edit roles', 'delete roles', 'manage roles', 'assign roles',
+            'view permissions', 'create permissions', 'edit permissions', 'delete permissions', 'manage permissions',
+            'view posts', 'create posts', 'edit posts', 'delete posts', 'publish posts',
+            'view categories', 'create categories', 'edit categories', 'delete categories',
+            'view media', 'upload media', 'edit media', 'delete media',
+            'view comments', 'moderate comments', 'delete comments',
+            'view dashboard', 'admin dashboard', 'analytics dashboard',
             'view settings', 'edit settings', 'manage settings',
             'view reports', 'create reports', 'export reports',
+            'send notifications', 'manage notifications',
+            'api access',
         ];
-        $adminRole->givePermissionTo($adminPermissions);
+        $adminRole->syncPermissions($adminPermissions);
 
-        // Manager - can manage users and view reports
-        $managerRole = Role::create(['name' => 'manager']);
-        $managerPermissions = [
-            'view users', 'create users', 'edit users', 'manage users',
-            'view dashboard',
+        // Content Manager - manages all content
+        $contentManagerRole = Role::firstOrCreate(['name' => 'content-manager']);
+        $contentManagerPermissions = [
+            'view users',
+            'view posts', 'create posts', 'edit posts', 'delete posts', 'publish posts',
+            'view categories', 'create categories', 'edit categories', 'delete categories',
+            'view media', 'upload media', 'edit media', 'delete media',
+            'view comments', 'moderate comments', 'delete comments',
+            'view dashboard', 'analytics dashboard',
             'view settings',
             'view reports', 'create reports',
+            'send notifications',
         ];
-        $managerRole->givePermissionTo($managerPermissions);
+        $contentManagerRole->syncPermissions($contentManagerPermissions);
 
-        // Editor - can edit content and view reports
-        $editorRole = Role::create(['name' => 'editor']);
+        // Editor - can create and edit content
+        $editorRole = Role::firstOrCreate(['name' => 'editor']);
         $editorPermissions = [
-            'view users',
+            'view posts', 'create posts', 'edit posts', 'edit own posts', 'delete own posts',
+            'view categories',
+            'view media', 'upload media',
+            'view comments',
             'view dashboard',
             'view settings',
-            'view reports',
         ];
-        $editorRole->givePermissionTo($editorPermissions);
+        $editorRole->syncPermissions($editorPermissions);
+
+        // Author - can create own content
+        $authorRole = Role::firstOrCreate(['name' => 'author']);
+        $authorPermissions = [
+            'view posts', 'create posts', 'edit own posts', 'delete own posts',
+            'view categories',
+            'view media', 'upload media',
+            'view dashboard',
+        ];
+        $authorRole->syncPermissions($authorPermissions);
+
+        // Moderator - can moderate comments and content
+        $moderatorRole = Role::firstOrCreate(['name' => 'moderator']);
+        $moderatorPermissions = [
+            'view posts', 'edit posts',
+            'view comments', 'moderate comments', 'delete comments',
+            'view dashboard',
+        ];
+        $moderatorRole->syncPermissions($moderatorPermissions);
+
+        // Customer Support - can view users and send notifications
+        $supportRole = Role::firstOrCreate(['name' => 'support']);
+        $supportPermissions = [
+            'view users',
+            'view dashboard',
+            'send notifications',
+        ];
+        $supportRole->syncPermissions($supportPermissions);
 
         // User - basic permissions
-        $userRole = Role::create(['name' => 'user']);
+        $userRole = Role::firstOrCreate(['name' => 'user']);
         $userPermissions = [
             'view dashboard',
         ];
-        $userRole->givePermissionTo($userPermissions);
+        $userRole->syncPermissions($userPermissions);
 
-        // Create a super admin user if it doesn't exist
+        // Create sample users with different roles
+        
+        // Super Admin user
         $superAdminUser = User::firstOrCreate(
             ['email' => 'admin@example.com'],
             [
                 'name' => 'Super Admin',
-                'password' => bcrypt('password'),
+                'password' => bcrypt('admin'),
                 'email_verified_at' => now(),
             ]
         );
         $superAdminUser->assignRole('super-admin');
 
-        // Create a regular admin user
+        // Admin user
         $adminUser = User::firstOrCreate(
             ['email' => 'admin@admin.com'],
             [
-                'name' => 'Admin User',
+                'name' => 'System Admin',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
             ]
         );
         $adminUser->assignRole('admin');
 
-        // Create a manager user
-        $managerUser = User::firstOrCreate(
-            ['email' => 'manager@example.com'],
+        // Content Manager user
+        $contentManagerUser = User::firstOrCreate(
+            ['email' => 'content@example.com'],
             [
-                'name' => 'Manager User',
+                'name' => 'Content Manager',
                 'password' => bcrypt('password'),
                 'email_verified_at' => now(),
             ]
         );
-        $managerUser->assignRole('manager');
+        $contentManagerUser->assignRole('content-manager');
 
-        // Create a regular user
-        $regularUser = User::firstOrCreate(
+        // Editor user
+        $editorUser = User::firstOrCreate(
+            ['email' => 'editor@example.com'],
+            [
+                'name' => 'John Editor',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $editorUser->assignRole('editor');
+
+        // Author user
+        $authorUser = User::firstOrCreate(
+            ['email' => 'author@example.com'],
+            [
+                'name' => 'Jane Author',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $authorUser->assignRole('author');
+
+        // Moderator user
+        $moderatorUser = User::firstOrCreate(
+            ['email' => 'moderator@example.com'],
+            [
+                'name' => 'Mike Moderator',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $moderatorUser->assignRole('moderator');
+
+        // Support user
+        $supportUser = User::firstOrCreate(
+            ['email' => 'support@example.com'],
+            [
+                'name' => 'Sarah Support',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $supportUser->assignRole('support');
+
+        // Regular users
+        $regularUser1 = User::firstOrCreate(
             ['email' => 'user@example.com'],
             [
                 'name' => 'Regular User',
@@ -156,13 +281,40 @@ class RolePermissionSeeder extends Seeder
                 'email_verified_at' => now(),
             ]
         );
-        $regularUser->assignRole('user');
+        $regularUser1->assignRole('user');
+
+        $regularUser2 = User::firstOrCreate(
+            ['email' => 'customer@example.com'],
+            [
+                'name' => 'Customer User',
+                'password' => bcrypt('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $regularUser2->assignRole('user');
+
+        // Demo user with multiple roles
+        $demoUser = User::firstOrCreate(
+            ['email' => 'demo@example.com'],
+            [
+                'name' => 'Demo User',
+                'password' => bcrypt('demo'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $demoUser->assignRole(['author', 'moderator']);
 
         $this->command->info('Roles and permissions seeded successfully!');
-        $this->command->info('Created users:');
-        $this->command->info('- Super Admin: admin@example.com (password: password)');
+        $this->command->info('Created users with roles:');
+        $this->command->info('- Super Admin: admin@example.com (password: admin)');
         $this->command->info('- Admin: admin@admin.com (password: password)');
-        $this->command->info('- Manager: manager@example.com (password: password)');
+        $this->command->info('- Content Manager: content@example.com (password: password)');
+        $this->command->info('- Editor: editor@example.com (password: password)');
+        $this->command->info('- Author: author@example.com (password: password)');
+        $this->command->info('- Moderator: moderator@example.com (password: password)');
+        $this->command->info('- Support: support@example.com (password: password)');
         $this->command->info('- User: user@example.com (password: password)');
+        $this->command->info('- Customer: customer@example.com (password: password)');
+        $this->command->info('- Demo (Author + Moderator): demo@example.com (password: demo)');
     }
 }

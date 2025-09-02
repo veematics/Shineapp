@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.admin')
 
 @section('content')
 <div class="container-fluid">
@@ -69,7 +69,7 @@
                                     <td>
                                         <div class="btn-group" role="group">
                                             <button type="button" class="btn btn-sm btn-outline-primary" 
-                                                    onclick="viewModelDetails('{{ $model['name'] }}')" 
+                                                    onclick="viewModelDetails('{{ $model['name'] }}')"
                                                     data-coreui-toggle="modal" 
                                                     data-coreui-target="#modelDetailsModal">
                                                 <i class="cil-info"></i> Details
@@ -84,7 +84,7 @@
                                             <button type="button" class="btn btn-sm btn-outline-warning" 
                                                     onclick="createSuggestedPermissions('{{ $model['name'] }}', {{ json_encode($model['suggested_permissions']) }})" 
                                                     title="Create Suggested Permissions">
-                                                <i class="cil-plus"></i>
+                                                <i class="cil-plus"></i>Populate
                                             </button>
                                             @endif
                                         </div>

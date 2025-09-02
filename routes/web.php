@@ -31,59 +31,59 @@ Route::middleware(['auth'])->group(function () {
 
 // Admin Routes (requires admin or super-admin role)
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', function () {
-        return view('admin.dashboard');
-    })->middleware('can:admin-access')->name('dashboard');
+    Route::get('/', [RolePermissionController::class, 'adminDashboard'])
+        ->middleware('permission:manage appsetting')
+        ->name('dashboard');
     
     // Role and Permission Management
     Route::get('/roles', [RolePermissionController::class, 'rolesIndex'])
-        ->middleware('can:manage-roles')
+        ->middleware('permission:manage roles')
         ->name('roles.index');
     
     Route::get('/permissions', [RolePermissionController::class, 'permissionsIndex'])
-        ->middleware('can:manage-permissions')
+        ->middleware('permission:manage appsetting')
         ->name('permissions.index');
     
     Route::get('/users', [RolePermissionController::class, 'usersIndex'])
-        ->middleware('can:manage-users')
+        ->middleware('permission:manage users')
         ->name('users.index');
     
     Route::get('/models', [RolePermissionController::class, 'modelsIndex'])
-        ->middleware('can:manage-models')
+        ->middleware('permission:manage appsetting')
         ->name('models.index');
     
     // Model permission management routes
     Route::post('/model-permissions', [RolePermissionController::class, 'createModelPermission'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:create permissions')
         ->name('model-permissions.create');
     
     Route::post('/model-permissions/assign-to-role', [RolePermissionController::class, 'assignModelPermissionToRole'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:edit permissions')
         ->name('model-permissions.assign-to-role');
     
     Route::delete('/model-permissions/revoke-from-role', [RolePermissionController::class, 'revokeModelPermissionFromRole'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:edit permissions')
         ->name('model-permissions.revoke-from-role');
     
     Route::get('/model-permissions/{model}', [RolePermissionController::class, 'getModelPermissions'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:view permissions')
         ->name('model-permissions.get');
     
     Route::post('/bulk-assign-permissions', [RolePermissionController::class, 'bulkAssignPermissionsToRole'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:edit permissions')
         ->name('bulk-assign-permissions');
 });
 
 // Super Admin Routes (requires super-admin role)
-Route::middleware(['auth', 'role:super-admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
-    Route::get('/', function () {
-        return view('super-admin.dashboard');
-    })->name('dashboard');
+// Route::middleware(['auth', 'role:super-admin'])->prefix('super-admin')->name('super-admin.')->group(function () {
+//     Route::get('/', function () {
+//         return view('super-admin.dashboard');
+//     })->name('dashboard');
     
-    Route::get('/system-settings', function () {
-        return view('super-admin.system-settings');
-    })->name('system-settings');
-});
+//     Route::get('/system-settings', function () {
+//         return view('super-admin.system-settings');
+//     })->name('system-settings');
+// });
 
 // Reports Routes (requires specific permissions)
 Route::middleware(['auth', 'permission:view reports'])->prefix('reports')->name('reports.')->group(function () {
@@ -118,7 +118,7 @@ Route::middleware(['auth'])->prefix('api')->name('api.')->group(function () {
         ->name('roles.create');
     
     Route::post('/permissions', [RolePermissionController::class, 'createPermission'])
-        ->middleware('permission:create permissions')
+        ->middleware('hierarchical_permission:create permissions')
         ->name('permissions.create');
     
     // Direct permission assignment (bypassing roles)
@@ -129,6 +129,23 @@ Route::middleware(['auth'])->prefix('api')->name('api.')->group(function () {
     Route::delete('/user/{user}/revoke-direct-permission', [RolePermissionController::class, 'revokeDirectPermission'])
         ->middleware('permission:manage users')
         ->name('user.revoke-direct-permission');
+    
+    // Debug route to check user permissions
+    Route::get('/debug/permissions', function() {
+        $user = auth()->user();
+        if (!$user) {
+            return response()->json(['error' => 'Not authenticated']);
+        }
+        
+        return response()->json([
+            'user' => $user->name,
+            'email' => $user->email,
+            'roles' => $user->roles->pluck('name'),
+            'permissions' => $user->getAllPermissions()->pluck('name'),
+            'has_manage_permissions' => $user->can('manage permissions'),
+            'csrf_token' => csrf_token()
+        ]);
+    })->middleware('auth');
     
     Route::get('/user/{user}/direct-permissions', [RolePermissionController::class, 'getUserDirectPermissions'])
         ->middleware('permission:manage users')
@@ -155,21 +172,26 @@ Route::middleware(['auth'])->prefix('api')->name('api.')->group(function () {
     
     // Permission edit routes
     Route::get('/permissions/{id}', [RolePermissionController::class, 'getPermission'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:view permissions')
         ->name('permissions.get');
     
     Route::put('/permissions/{id}', [RolePermissionController::class, 'updatePermission'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:edit permissions')
         ->name('permissions.update');
         
     // Permission-Role assignment routes
     Route::post('/permissions/{id}/assign-role', [RolePermissionController::class, 'assignPermissionToRole'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:edit permissions')
         ->name('permissions.assign-role');
         
     Route::post('/permissions/{id}/revoke-role', [RolePermissionController::class, 'revokePermissionFromRole'])
-        ->middleware('permission:manage permissions')
+        ->middleware('hierarchical_permission:edit permissions')
         ->name('permissions.revoke-role');
+        
+    // Permission delete route
+    Route::delete('/permissions/{id}', [RolePermissionController::class, 'deletePermission'])
+        ->middleware('hierarchical_permission:delete permissions')
+        ->name('permissions.delete');
 });
 
 require __DIR__.'/auth.php';

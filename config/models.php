@@ -62,7 +62,7 @@ return [
 
     'permission_naming' => [
         'pattern' => '{action} {model_lower}',
-        'actions' => ['view', 'create', 'edit', 'delete', 'manage']
+        'actions' => ['view', 'create', 'edit', 'delete', 'manage','view own','edit own','delete own']
     ],
 
     /*

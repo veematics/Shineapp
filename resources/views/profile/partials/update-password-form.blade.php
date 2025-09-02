@@ -12,7 +12,11 @@
         <div class="row g-3">
             <div class="col-12">
                 <label for="update_password_current_password" class="form-label">
-                    <i class="fas fa-key me-1 text-info"></i>
+                    <i class="icon me-1 text-info">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                    </svg>
+                </i>
                     {{ __('Current Password') }}
                 </label>
                 <div class="input-group">
@@ -20,7 +24,11 @@
                            id="update_password_current_password" name="current_password" 
                            autocomplete="current-password">
                     <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('update_password_current_password')">
-                        <i class="fas fa-eye" id="update_password_current_password_icon"></i>
+                        <i class="icon" id="update_password_current_password_icon">
+                        <svg class="icon">
+                            <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-eye') }}"></use>
+                        </svg>
+                    </i>
                     </button>
                 </div>
                 @error('current_password', 'updatePassword')
@@ -32,7 +40,11 @@
 
             <div class="col-md-6">
                 <label for="update_password_password" class="form-label">
-                    <i class="fas fa-lock me-1 text-info"></i>
+                    <i class="icon me-1 text-info">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
+                    </svg>
+                </i>
                     {{ __('New Password') }}
                 </label>
                 <div class="input-group">
@@ -40,7 +52,11 @@
                            id="update_password_password" name="password" 
                            autocomplete="new-password">
                     <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('update_password_password')">
-                        <i class="fas fa-eye" id="update_password_password_icon"></i>
+                        <i class="icon" id="update_password_password_icon">
+                        <svg class="icon">
+                            <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-eye') }}"></use>
+                        </svg>
+                    </i>
                     </button>
                 </div>
                 @error('password', 'updatePassword')
@@ -52,7 +68,11 @@
 
             <div class="col-md-6">
                 <label for="update_password_password_confirmation" class="form-label">
-                    <i class="fas fa-check-double me-1 text-info"></i>
+                    <i class="icon me-1 text-info">
+                    <svg class="icon">
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-check-alt') }}"></use>
+                    </svg>
+                </i>
                     {{ __('Confirm Password') }}
                 </label>
                 <div class="input-group">
@@ -60,7 +80,11 @@
                            id="update_password_password_confirmation" name="password_confirmation" 
                            autocomplete="new-password">
                     <button class="btn btn-outline-secondary" type="button" onclick="togglePassword('update_password_password_confirmation')">
-                        <i class="fas fa-eye" id="update_password_password_confirmation_icon"></i>
+                        <i class="icon" id="update_password_password_confirmation_icon">
+                        <svg class="icon">
+                            <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-eye') }}"></use>
+                        </svg>
+                    </i>
                     </button>
                 </div>
                 @error('password_confirmation', 'updatePassword')
@@ -73,7 +97,11 @@
 
         <div class="d-flex align-items-center gap-3 mt-4">
             <button type="submit" class="btn btn-info">
-                <i class="fas fa-shield-alt me-2"></i>
+                <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-shield-alt') }}"></use>
+                </svg>
+            </i>
                 {{ __('Update Password') }}
             </button>
 
@@ -81,7 +109,11 @@
                 <div class="alert alert-success alert-dismissible fade show mb-0 py-2" role="alert" 
                      x-data="{ show: true }" x-show="show" x-transition 
                      x-init="setTimeout(() => show = false, 3000)">
-                    <i class="fas fa-check-circle me-2"></i>
+                    <i class="icon me-2">
+                <svg class="icon">
+                    <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-check-circle') }}"></use>
+                </svg>
+            </i>
                     {{ __('Password updated successfully!') }}
                 </div>
             @endif

@@ -41,29 +41,33 @@ class AppServiceProvider extends ServiceProvider
             // This can happen during initial migration
         }
 
-        // Define some common gates
+        // Define some common gates with hierarchical permission checking
         Gate::define('manage-users', function ($user) {
-            return $user->hasPermissionTo('manage users') || $user->hasRole(['admin', 'super-admin']);
+            return \App\Helpers\FeatureAccess::hasPermissionHierarchical('manage users') || $user->hasRole(['admin', 'super-admin']);
         });
 
         Gate::define('manage-roles', function ($user) {
-            return $user->hasPermissionTo('manage roles') || $user->hasRole(['admin', 'super-admin']);
+            return \App\Helpers\FeatureAccess::hasPermissionHierarchical('manage roles') || $user->hasRole(['admin', 'super-admin']);
         });
 
         Gate::define('manage-permissions', function ($user) {
-            return $user->hasPermissionTo('manage permissions') || $user->hasRole(['admin', 'super-admin']);
+            return \App\Helpers\FeatureAccess::hasPermissionHierarchical('manage permissions') || $user->hasRole(['admin', 'super-admin']);
         });
 
         Gate::define('manage-models', function ($user) {
-            return $user->hasPermissionTo('manage models') || $user->hasRole(['admin', 'super-admin']);
+            return \App\Helpers\FeatureAccess::hasPermissionHierarchical('manage models') || $user->hasRole(['admin', 'super-admin']);
         });
 
-        Gate::define('admin-access', function ($user) {
-            return $user->hasRole(['admin', 'super-admin']);
-        });
+        // Gate::define('admin-access', function ($user) {
+        //     return $user->hasRole(['admin', 'super-admin']);
+        // });
 
-        Gate::define('super-admin-access', function ($user) {
-            return $user->hasRole('super-admin');
-        });
+        // Gate::define('super-admin-access', function ($user) {
+        //     return $user->hasRole('super-admin');
+        // });
+
+        // Gate::define('manage-appsetting', function ($user) {
+        //     return $user->hasPermissionTo('manage appsetting') || $user->hasRole(['admin', 'super-admin']);
+        // });
     }
 }
