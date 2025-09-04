@@ -9,8 +9,8 @@
             </i>
             Admin Panel
         </h5>
-        <small class="text-body-secondary">Management Dashboard</small>
-        <a href="{{ route('dashboard') }}" class="d-flex align-items-center text-decoration-none p-3 {{ request()->routeIs('admin.appsetting.index') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
+        <small class="text-body-secondary">Management Dashboard</small><br/>
+        <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('admin.appsetting.index') ? 'bg-primary text-white' : 'text-body' }}">
             <i class="icon icon-lg me-3">
                 <svg class="icon">
                     
@@ -26,7 +26,7 @@
         <ul class="list-unstyled">
             <!-- Dashboard -->
             <li class="mb-1">
-                <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-decoration-none p-3 {{ request()->routeIs('admin.dashboard') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
+                <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center text-decoration-none  {{ request()->routeIs('admin.dashboard') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
                     <i class="icon me-3">
                         <svg class="icon">
                             <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-speedometer') }}"></use>
@@ -43,7 +43,7 @@
                 </div>
             </li>
             <li class="mb-1">
-                <a href="{{ route('admin.users.index') }}" class="d-flex align-items-center text-decoration-none p-3 ps-4 {{ request()->routeIs('admin.users.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
+                <a href="{{ route('admin.users.index') }}" class="d-flex align-items-center text-decoration-none  ps-4 {{ request()->routeIs('admin.users.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
                     <i class="icon me-3">
                         <svg class="icon">
                             <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-people') }}"></use>
@@ -53,7 +53,7 @@
                 </a>
             </li>
             <li class="mb-1">
-                <a href="{{ route('admin.roles.index') }}" class="d-flex align-items-center text-decoration-none p-3 ps-4 {{ request()->routeIs('admin.roles.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
+                <a href="{{ route('admin.roles.index') }}" class="d-flex align-items-center text-decoration-none  ps-4 {{ request()->routeIs('admin.roles.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
                     <i class="icon me-3">
                         <svg class="icon">
                             <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-tags') }}"></use>
@@ -64,7 +64,7 @@
             </li>
             @can('manage permissions')
             <li class="mb-1">
-                <a href="{{ route('admin.permissions.index') }}" class="d-flex align-items-center text-decoration-none p-3 ps-4 {{ request()->routeIs('admin.permissions.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
+                <a href="{{ route('admin.permissions.index') }}" class="d-flex align-items-center text-decoration-none  ps-4 {{ request()->routeIs('admin.permissions.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
                     <i class="icon me-3">
                         <svg class="icon">
                             <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
@@ -75,7 +75,7 @@
             </li>
             @endcan
              <li class="mb-1">
-                <a href="{{ route('admin.models.index') }}" class="d-flex align-items-center text-decoration-none p-3 ps-4 {{ request()->routeIs('admin.models.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
+                <a href="{{ route('admin.models.index') }}" class="d-flex align-items-center text-decoration-none  ps-4 {{ request()->routeIs('admin.models.*') ? 'bg-primary text-white' : 'text-body' }} hover-bg-primary">
                     <i class="icon me-3">
                         <svg class="icon">
                             <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-lock-locked') }}"></use>
@@ -91,7 +91,7 @@
                 </div>
             </li>
             <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
+                <a href="#" class="d-flex align-items-center text-decoration-none text-body  ps-4 hover-bg-primary">
                     <i class="icon me-2">
                     <svg class="icon">
                         <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-description') }}"></use>
@@ -101,7 +101,7 @@
                 </a>
             </li>
             <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
+                <a href="#" class="d-flex align-items-center text-decoration-none text-body  ps-4 hover-bg-primary">
                     <i class="icon me-3">
                     <svg class="icon">
                         <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-folder') }}"></use>
@@ -111,7 +111,7 @@
                 </a>
             </li>
             <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
+                <a href="#" class="d-flex align-items-center text-decoration-none text-body  ps-4 hover-bg-primary">
                     <i class="icon me-3">
                     <svg class="icon">
                         <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-image') }}"></use>
@@ -121,42 +121,7 @@
                 </a>
             </li>
             
-            <!-- System Settings -->
-            <li class="mb-1">
-                <div class="text-body-secondary px-3 py-2 small text-uppercase fw-bold mt-3">
-                    System Settings
-                </div>
-            </li>
-            <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
-                    <i class="icon me-2">
-                    <svg class="icon">
-                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-settings') }}"></use>
-                    </svg>
-                </i>
-                    <span>General Settings</span>
-                </a>
-            </li>
-            <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
-                    <i class="icon me-3">
-                    <svg class="icon">
-                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-envelope-closed') }}"></use>
-                    </svg>
-                </i>
-                    <span>Email Settings</span>
-                </a>
-            </li>
-            <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
-                    <i class="icon me-3">
-                    <svg class="icon">
-                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-shield-alt') }}"></use>
-                    </svg>
-                </i>
-                    <span>Security</span>
-                </a>
-            </li>
+      
             
 
             
@@ -166,7 +131,7 @@
 Application Setting                </div>
             </li>
             <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
+                <a href="#" class="d-flex align-items-center text-decoration-none text-body  ps-4 hover-bg-primary">
                     <i class="icon me-3">
                     <svg class="icon">
                         <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-storage') }}"></use>
@@ -176,7 +141,7 @@ Application Setting                </div>
                 </a>
             </li>
             <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
+                <a href="#" class="d-flex align-items-center text-decoration-none text-body  ps-4 hover-bg-primary">
                     <i class="icon me-3">
                     <svg class="icon">
                         <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-history') }}"></use>
@@ -185,16 +150,7 @@ Application Setting                </div>
                     <span>Integration</span>
                 </a>
             </li>
-            <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body p-3 ps-4 hover-bg-primary">
-                    <i class="icon me-3">
-                    <svg class="icon">
-                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-brush-alt') }}"></use>
-                    </svg>
-                </i>
-                    <span>Cache Management</span>
-                </a>
-            </li>
+          
         </ul>
     </nav>
 </div>

@@ -17,12 +17,14 @@
       </svg><span data-coreui-i18n="comments">Comments</span><span class="badge badge-sm bg-warning-gradient ms-2">42</span></a>
     <div class="dropdown-header bg-body-tertiary text-body-secondary fw-semibold my-2" data-coreui-i18n="settings">Settings</div>
     
-    @can('manage-appsetting')
+
+    
     <a class="dropdown-item" href="/admin">
       <svg class="icon me-2">
         <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg') }}#cil-settings"></use>
       </svg>App Setting</a>
-    @endcan
+
+    
       <a class="dropdown-item" href="#">
       <svg class="icon me-2">
         <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg') }}#cil-user"></use>

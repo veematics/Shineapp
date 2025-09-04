@@ -17,7 +17,7 @@ class RolePermissionController extends Controller
     public function adminDashboard()
     {
         // Check permission using Gates - should match route middleware
-        if (Gate::denies('manage-appsetting')) {
+        if (Gate::denies('manage appsetting')) {
             abort(403, 'You do not have permission to access admin dashboard.');
         }
 
