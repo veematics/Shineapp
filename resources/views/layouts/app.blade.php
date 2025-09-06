@@ -111,51 +111,7 @@
     </style>
     </head>
     <body class="sidebar-fixed sidebar-lg-show">
-        <div class="sidebar sidebar-fixed sidebar-dark bg-dark-gradient border-end" id="sidebar">
-      <div class="sidebar-header border-bottom">
-        <div class="sidebar-brand">
-          <svg class="sidebar-brand-full" width="110" height="32" alt="CoreUI Logo">
-            <use xlink:href="{{ asset('img/coreui.svg') }}#full"></use>
-           
-          </svg>
-          <svg class="sidebar-brand-narrow" width="32" height="32" alt="CoreUI Logo">
-            <use xlink:href="{{ asset('img/coreui.svg') }}#signet"></use>
-          </svg>
-        </div>
- 
-        <button class="sidebar-toggler" type="button" onclick="document.querySelector('#sidebar').classList.toggle('sidebar-narrow'); document.body.classList.toggle('sidebar-narrow-active')"></button>
-        <button class="btn-close d-lg-none" type="button" data-coreui-theme="dark" aria-label="Close" onclick="coreui.Sidebar.getInstance(document.querySelector(&quot;#sidebar&quot;)).toggle()"></button>
-      </div>
-      <ul class="sidebar-nav d-flex flex-column h-100" data-coreui="navigation" data-simplebar="">
-        <li class="nav-item"><a class="nav-link" href="/dashboard">
-            <svg class="nav-icon">
-              <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg') }}#cil-speedometer"></use>
-            </svg><span data-coreui-i18n="dashboard">Dashboard</span></a></li>
-        
-       
-        
-      </ul>
-      <div><ul class="sidebar-nav d-flex flex-column h-100"> <li class="nav-item"><a class="nav-link" href="https://coreui.io/bootstrap/docs/templates/installation/" target="_blank">
-            <svg class="nav-icon">
-              <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg') }}#cil-description"></use>
-            </svg>Docs</a></li>
-        
-        <li class="nav-title mt-auto">Project Workload</li>
-        <li class="nav-item px-3 pb-2 d-narrow-none">
-          <div class="text-uppercase small fw-bold mb-1" >Daily Task</div>
-          <div class="progress progress-thin">
-            <div class="progress-bar bg-info-gradient" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <div class="small text-body-secondary">348 Processes. 1/4 Cores.</div>
-        </li>
-        <li class="nav-item px-3 pb-2 d-narrow-none">
-          <div class="text-uppercase small fw-bold mb-1" >Project Task</div>
-          <div class="progress progress-thin">
-            <div class="progress-bar bg-warning-gradient" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-          </div>
-          <div class="small text-body-secondary">11444MB/16384MB</div>
-        </li></ul></div>
-    </div>
+    @include('layouts.partials.sidebar')
     @include('layouts.partials.rightpanel')
     <div class="wrapper d-flex flex-column min-vh-100 bg-body-tertiary">
       <header class="header header-sticky p-0 mb-4">

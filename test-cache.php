@@ -1,0 +1,3 @@
+<?php
+use App\Helpers\AppSettingHelper; use Illuminate\Support\Facades\Cache; echo 'App Settings Cache Contents:' . PHP_EOL; $settings = AppSettingHelper::all(); if ($settings) { echo json_encode($settings, JSON_PRETTY_PRINT) . PHP_EOL; } else { echo 'No cached settings found.' . PHP_EOL; } echo PHP_EOL . 'Fallback Model:' . PHP_EOL; $fallback = AppSettingHelper::getFallbackModel(); if ($fallback) { echo json_encode($fallback, JSON_PRETTY_PRINT) . PHP_EOL; } else { echo 'No fallback model set.' . PHP_EOL; } echo PHP_EOL . 'Cache Key: ' . config('app.cache_key', 'dxshine') . '_app_settings' . PHP_EOL;
+?>

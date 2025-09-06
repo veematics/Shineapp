@@ -107,6 +107,18 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Cache Key
+    |--------------------------------------------------------------------------
+    |
+    | This key is used as a prefix for cache keys to avoid conflicts with
+    | other applications that might be using the same cache store.
+    |
+    */
+
+    'cache_key' => env('CACHE_KEY', 'laravel'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Maintenance Mode Driver
     |--------------------------------------------------------------------------
     |

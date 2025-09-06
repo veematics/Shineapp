@@ -131,15 +131,16 @@
 Application Setting                </div>
             </li>
             <li class="mb-1">
-                <a href="#" class="d-flex align-items-center text-decoration-none text-body  ps-4 hover-bg-primary">
+                <a href="{{ route('admin.appsetting.edit') }}" class="d-flex align-items-center text-decoration-none {{ request()->routeIs('admin.appsetting.*') ? 'bg-primary text-white' : 'text-body' }} ps-4 hover-bg-primary">
                     <i class="icon me-3">
                     <svg class="icon">
-                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-storage') }}"></use>
+                        <use xlink:href="{{ asset('vendor/coreui/icons/svg/free.svg#cil-apps-settings') }}"></use>
                     </svg>
                 </i>
-                    <span>Theme and Design</span>
+                    <span>App Setting</span>
                 </a>
             </li>
+
             <li class="mb-1">
                 <a href="#" class="d-flex align-items-center text-decoration-none text-body  ps-4 hover-bg-primary">
                     <i class="icon me-3">

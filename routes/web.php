@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RolePermissionController;
+use App\Http\Controllers\AIController;
+use App\Http\Controllers\GoogleDriveController;
+use App\Http\Controllers\AppSettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -51,6 +54,19 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/models', [RolePermissionController::class, 'modelsIndex'])
         ->middleware('permission:manage appsetting')
         ->name('models.index');
+    
+    // App Settings Routes
+    Route::get('/appsetting', [AppSettingController::class, 'edit'])
+        ->middleware('permission:manage appsetting')
+        ->name('appsetting.edit');
+    
+    Route::put('/appsetting', [AppSettingController::class, 'update'])
+        ->middleware('permission:manage appsetting')
+        ->name('appsetting.update');
+    
+    Route::post('/appsetting/fetch-models', [AppSettingController::class, 'fetchModels'])
+        ->middleware('permission:manage appsetting')
+        ->name('appsetting.fetch-models');
     
     // Model permission management routes
     Route::post('/model-permissions', [RolePermissionController::class, 'createModelPermission'])
@@ -192,6 +208,32 @@ Route::middleware(['auth'])->prefix('api')->name('api.')->group(function () {
     Route::delete('/permissions/{id}', [RolePermissionController::class, 'deletePermission'])
         ->middleware('hierarchical_permission:delete permissions')
         ->name('permissions.delete');
+    
+    // AI Service Routes
+    Route::prefix('ai')->name('ai.')->middleware('permission:manage appsetting')->group(function () {
+        Route::get('/services', [AIController::class, 'services'])->name('services');
+        Route::post('/chat', [AIController::class, 'chat'])->name('chat');
+        Route::post('/test-openai', [AIController::class, 'testOpenAI'])->name('test-openai');
+        Route::post('/test-deepseek', [AIController::class, 'testDeepSeek'])->name('test-deepseek');
+    });
+    
+    // Google Drive Routes
+    Route::prefix('googledrive')->name('googledrive.')->middleware('permission:manage appsetting')->group(function () {
+        Route::get('/', [GoogleDriveController::class, 'index'])->name('index');
+        Route::get('/authenticate', [GoogleDriveController::class, 'authenticate'])->name('authenticate');
+        Route::get('/callback', [GoogleDriveController::class, 'callback'])->name('callback');
+        Route::post('/disconnect', [GoogleDriveController::class, 'disconnect'])->name('disconnect');
+        
+        // API Routes
+        Route::get('/auth-status', [GoogleDriveController::class, 'getAuthStatus'])->name('auth-status');
+        Route::get('/files', [GoogleDriveController::class, 'listFiles'])->name('files.list');
+        Route::post('/files/upload', [GoogleDriveController::class, 'uploadFile'])->name('files.upload');
+        Route::get('/files/{fileId}/download', [GoogleDriveController::class, 'downloadFile'])->name('files.download');
+        Route::delete('/files/{fileId}', [GoogleDriveController::class, 'deleteFile'])->name('files.delete');
+        Route::get('/files/{fileId}/info', [GoogleDriveController::class, 'getFileInfo'])->name('files.info');
+        Route::get('/search', [GoogleDriveController::class, 'searchFiles'])->name('search');
+        Route::post('/folders', [GoogleDriveController::class, 'createFolder'])->name('folders.create');
+    });
 });
 
 require __DIR__.'/auth.php';

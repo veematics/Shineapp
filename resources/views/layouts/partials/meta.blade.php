@@ -1,4 +1,7 @@
-<meta name="description" content="CoreUI - Bootstrap Admin Template">
-<meta name="author" content="Łukasz Holeczek">
-<meta name="keyword" content="Bootstrap,Admin,Template,SCSS,HTML,RWD,Dashboard">
-<title>CoreUI Bootstrap Admin Template</title>
+@php
+use App\Helpers\AppSettingHelper;
+@endphp
+<meta name="description" content="{{ AppSettingHelper::get('appHeadline') }}">
+<meta name="author" content="Doxadigital">
+<title>{{ AppSettingHelper::get('appName') }} </title>
+<meta name="robots" content="noindex, nofollow" />

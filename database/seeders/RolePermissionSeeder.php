@@ -78,7 +78,7 @@ class RolePermissionSeeder extends Seeder
             'view settings',
             'edit settings',
             'manage settings',
-            'manage-appsetting',
+            'manage appsetting',
             'system settings',
             
             // Reports

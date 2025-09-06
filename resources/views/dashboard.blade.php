@@ -127,6 +127,7 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-transparent border-bottom-0 pb-0">
                         <h5 class="card-title mb-0">{{ __('Quick Actions') }}</h5>
+
                     </div>
                     <div class="card-body">
                         <div class="row g-3">
@@ -170,13 +171,39 @@
                             <span>{{ __('Cache') }}</span>
                             <span class="badge bg-warning">{{ __('Clearing') }}</span>
                         </div>
-                        <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex justify-content-between align-items-center mb-3">
                             <span>{{ __('Last Backup') }}</span>
                             <small class="text-muted">{{ __('2 hours ago') }}</small>
+                        </div>
+                        <div class="d-grid">
+                            <button type="button" class="btn btn-primary" onclick="showToast()">{{ __('Test Toast Notification') }}</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container position-fixed top-0 end-0 p-3">
+        <div id="testToast" class="toast text-bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-bg-success">
+                <i class="cil-check-circle text-white me-2"></i>
+                <strong class="me-auto text-white">{{ __('Success') }}</strong>
+                <small class="text-white-50">{{ __('Just now') }}</small>
+                <button type="button" class="btn-close btn-close-white" data-coreui-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body text-white">
+                Hello World
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showToast() {
+            const toastElement = document.getElementById('testToast');
+            const toast = new coreui.Toast(toastElement);
+            toast.show();
+        }
+    </script>
 </x-app-layout>
